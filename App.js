@@ -17,9 +17,9 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
     useEffect(async () => {
-        let result = JSON.parse(await PaymentHandler.sendPaymentRequest(0.01)).response.financial.result.code == "Approved";
-        if (!result) return;
-        console.log("Uspesno placanje");
+        //let result = JSON.parse(await PaymentHandler.sendPaymentRequest(0.01)).response.financial.result.code == "Approved";
+        //if (!result) return;
+        //console.log("Uspesno placanje");
     })
     let [fontsLoaded] = useFonts({
         Raleway_400Regular,
