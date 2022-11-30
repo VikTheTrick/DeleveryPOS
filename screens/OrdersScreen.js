@@ -39,9 +39,24 @@ export function OrdersScreen(props) {
         setNarudzbine(pomNarudzbine)
         setUpdate(!update)
     }
+
+    const odbiNarudzbinu = (id) => {
+        let pomNarudzbine = narudzbine
+        console.log(pomNarudzbine.length)
+        for(let i=0; i<narudzbine.length; i++)
+        {
+            if(narudzbine[i].id == id)
+            {
+                pomNarudzbine[i].status = 5
+                break;
+            }
+        }
+        setNarudzbine(pomNarudzbine)
+        setUpdate(!update)
+    }
     
     const checkFlex = (div) => {
-        if (div == "Gotove") {
+        if (div == "Spremne") {
             let num = 0;
             for (let i in narudzbine) {
                 if (orders[i].status == 2)
@@ -139,9 +154,9 @@ export function OrdersScreen(props) {
                 }}>
                 <Text
                 style={styles.buttonText}
-                >Gotove</Text>
+                >Spremne</Text>
             </TouchableOpacity>
-            <View style={{height: checkFlex("Gotove")}}>
+            <View style={{height: checkFlex("Spremne")}}>
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 2).map(item =>
                         <OrderComponent delevery={item.delevery}
@@ -209,6 +224,7 @@ export function OrdersScreen(props) {
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 0).map(item =>
                         <OrderComponent
+                            odbiNarudzbinu = {odbiNarudzbinu}
                             promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             navigation={props.navigation} delevery={item.delevery} price={item.price}
