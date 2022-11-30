@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useFonts} from 'expo-font';
 
 import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, SafeAreaView, Dimensions,} from 'react-native'
@@ -15,12 +15,35 @@ export function OrdersScreen(props) {
     const [nove, setNove] = useState(true)
     const [prihvacene, setPrihvacene] = useState(false)
     const [gotove, setGotove] = useState(false)
-
+    const [narudzbine, setNarudzbine] = useState([])
+    const [update, setUpdate] = useState(false)
+    useEffect(() => {
+        setNarudzbine(orders)
+        });
+    const promeniStanjeNarudzbine = (id) =>{
+        console.log(id)
+        let pomNarudzbine = narudzbine
+        console.log(pomNarudzbine.length)
+        for(let i=0; i<narudzbine.length; i++)
+        {
+            if(narudzbine[i].id == id)
+            {
+                pomNarudzbine[i].status = narudzbine[i].status + 1;
+                if(narudzbine[i].status == 0)
+                {
+                    //stampaj
+                }
+                break;
+            }
+        }
+        setNarudzbine(pomNarudzbine)
+        setUpdate(!update)
+    }
+    
     const checkFlex = (div) => {
-
         if (div == "Gotove") {
             let num = 0;
-            for (let i in orders) {
+            for (let i in narudzbine) {
                 if (orders[i].status == 2)
                     num += 1.1;
             }
@@ -45,8 +68,8 @@ export function OrdersScreen(props) {
             }
         } else if (div == "Prihvacene") {
             let num = 0;
-            for (let i in orders) {
-                if (orders[i].status == 1)
+            for (let i in narudzbine) {
+                if (narudzbine[i].status == 1)
                     num += 1.1;
             }
 
@@ -70,26 +93,26 @@ export function OrdersScreen(props) {
             }
         } else if (div == "Nove") {
             let num = 0;
-            for (let i in orders) {
-                if (orders[i].status == 0)
+            for (let i in narudzbine) {
+                if (narudzbine[i].status == 0)
                     num += 1.1;
             }
 
             if (nove && !prihvacene && !gotove) {
-                if (num > 7)
+                if (num > 8)
                     num = 6.5
                 return windowHeight * num / 10
             }
             if (prihvacene && nove && gotove) {
-                if (num > 3.33)
-                    num = 3
+                if (num > 6)
+                    num = 4
                 return windowHeight * num / 10
             }
             if (!nove)
                 return 0
 
             if (nove && (prihvacene || gotove)) {
-                if (num > 4)
+                if (num > 5)
                     num = 4;
                 return windowHeight * num / 10
             }
@@ -108,19 +131,22 @@ export function OrdersScreen(props) {
                     fontFamily: "Raleway_400Regular",
                     width: '100%',
                     height: '7%',
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: gotove?'#252525':"gray",
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 5,
                     width: '95%',
                     borderRadius: 10
                 }}>
-                <Text>Gotove</Text>
+                <Text
+                style={styles.buttonText}
+                >Gotove</Text>
             </TouchableOpacity>
             <View style={{height: checkFlex("Gotove")}}>
                 <ScrollView>
-                    {orders.filter((order) => order.status == 2).map(item =>
+                    {narudzbine.filter((order) => order.status == 2).map(item =>
                         <OrderComponent delevery={item.delevery}
+                                        promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
                                         key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                                         price={item.price}
                                         companyLogo={item.companyLogo}
@@ -139,19 +165,23 @@ export function OrdersScreen(props) {
                     fontFamily: "Raleway_400Regular",
                     width: '100%',
                     height: '7%',
-                    backgroundColor: '#ffea00',
+                    backgroundColor: prihvacene?'#252525':"gray",
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 5,
                     width: '95%',
                     borderRadius: 10
                 }}>
-                <Text>Prihvacene</Text>
+                <Text
+                style={styles.buttonText}
+                >Prihvacene</Text>
             </TouchableOpacity>
             <View style={{height: checkFlex("Prihvacene")}}>
                 <ScrollView>
-                    {orders.filter((order) => order.status == 1).map(item =>
-                        <OrderComponent key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
+                    {narudzbine.filter((order) => order.status == 1).map(item =>
+                        <OrderComponent 
+                                        promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
+                                        key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                                         delevery={item.delevery}
                                         price={item.price}
                                         companyLogo={item.companyLogo}
@@ -169,19 +199,20 @@ export function OrdersScreen(props) {
                 style={{
                     width: '100%',
                     height: '7%',
-                    backgroundColor: '#ACD1AF',
+                    backgroundColor: nove?'#252525':"gray",
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 5,
                     width: '95%',
                     borderRadius: 10
                 }}>
-                <Text>Nove</Text>
+                <Text style={styles.buttonText}>Nove</Text>
             </TouchableOpacity>
             <View style={{height: checkFlex("Nove")}}>
                 <ScrollView>
-                    {orders.filter((order) => order.status == 0).map(item =>
+                    {narudzbine.filter((order) => order.status == 0).map(item =>
                         <OrderComponent
+                            promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             navigation={props.navigation} delevery={item.delevery} price={item.price}
                             companyLogo={item.companyLogo}
@@ -205,6 +236,11 @@ const styles = StyleSheet.create({
         height: '20%',
         width: '100%', backgroundColor: 'white',
         marginBottom: 10
+    },
+    buttonText: {
+        color:"white",
+        fontFamily:"Raleway_400Regular",
+        fontSize:windowHeight/40
     }
 })
 
