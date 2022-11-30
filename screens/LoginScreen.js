@@ -16,8 +16,8 @@ export default function LoginScreen({navigation}) {
     const [password, setPassword] = useState({value: '', error: ''})
 
     const onLoginPressed = () => {
-        const emailError = emailValidator(email.value)
-        const passwordError = passwordValidator(password.value)
+        const emailError = false//emailValidator(email.value)
+        const passwordError = false//passwordValidator(password.value)
         if (emailError || passwordError) {
             setEmail({...email, error: emailError})
             setPassword({...password, error: passwordError})

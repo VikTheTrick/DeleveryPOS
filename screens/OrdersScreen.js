@@ -42,8 +42,23 @@ export function OrdersScreen(props) {
         setUpdate(!update)
     }
 
+    const odbiNarudzbinu = (id) => {
+        let pomNarudzbine = narudzbine
+        console.log(pomNarudzbine.length)
+        for(let i=0; i<narudzbine.length; i++)
+        {
+            if(narudzbine[i].id == id)
+            {
+                pomNarudzbine[i].status = 5
+                break;
+            }
+        }
+        setNarudzbine(pomNarudzbine)
+        setUpdate(!update)
+    }
+    
     const checkFlex = (div) => {
-        if (div == "Gotove") {
+        if (div == "Spremne") {
             let num = 0;
             for (let i in narudzbine) {
                 if (orders[i].status == 2)
@@ -140,10 +155,17 @@ export function OrdersScreen(props) {
                     borderRadius: 10
                 }}>
                 <Text
+<<<<<<< HEAD
                     style={styles.buttonText}
                 >Gotove</Text>
             </TouchableOpacity>
             <View style={{ height: checkFlex("Gotove") }}>
+=======
+                style={styles.buttonText}
+                >Spremne</Text>
+            </TouchableOpacity>
+            <View style={{height: checkFlex("Spremne")}}>
+>>>>>>> e7b3d0fdde74bd94a2108ca08c658e902b6c6d6b
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 2).map(item =>
                         <OrderComponent delevery={item.delevery}
@@ -211,7 +233,12 @@ export function OrdersScreen(props) {
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 0).map(item =>
                         <OrderComponent
+<<<<<<< HEAD
                             promeniStanjeNarudzbine={promeniStanjeNarudzbine}
+=======
+                            odbiNarudzbinu = {odbiNarudzbinu}
+                            promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
+>>>>>>> e7b3d0fdde74bd94a2108ca08c658e902b6c6d6b
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             navigation={props.navigation} delevery={item.delevery} price={item.price}
                             companyLogo={item.companyLogo}

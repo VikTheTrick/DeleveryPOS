@@ -132,7 +132,7 @@ const orders = [
     }, {
         id:4,
         companyLogo: "https://i.pinimg.com/originals/a8/71/4c/a8714cadb2358c6a32ce232025eb13fe.png",
-        price: 1900,
+        price: 1600,
         delevery: true,
         status: 0,
         items: [
