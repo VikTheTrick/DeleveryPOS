@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import {OrderComponent} from './Components/OrderComponent'
+import {OrderComponent} from './components/OrderComponent'
 import { OrdersScreen } from './screens/OrdersScreen';
 import {Stek} from './screens/Navigation';
 export default function App() {
