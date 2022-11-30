@@ -1,13 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import { NativeModules } from 'react-native';
-const { PrintService } = NativeModules;
+import { Alert, NativeModules } from 'react-native';
+const { PrintService, PaymentHandler } = NativeModules;
 
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, SafeAreaView, Dimensions, } from 'react-native'
 import OrderComponent from '../components/OrderComponent';
 import orderSlip from '../util/Slip';
 
 import orders from "../mock/orders";
+import orderPrice from '../util/Price';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -32,23 +33,39 @@ export function OrdersScreen(props) {
                     let slip = orderSlip(narudzbine[i]);
                     let result = await PrintService.print(slip);
                     if (!result) return;
-                    console.log("Odstampao");
                 }
-                pomNarudzbine[i].status = narudzbine[i].status + 1;
+                if (narudzbine[i].status == 2) {
+                    Alert.alert("Payment", "Initiate a credit card payment?", [
+                        {
+                            text: 'Yes', onPress: async () => {
+                                let result = JSON.parse(await PaymentHandler.sendPaymentRequest(orderPrice(narudzbine[i]))).response.financial.result.code == "Approved";
+                                if (!result) return Alert.alert("Error", "Payment failed");
+                                pomNarudzbine[i].status = narudzbine[i].status + 1;
+                                setNarudzbine(pomNarudzbine)
+                                setUpdate(!update)
+                            }
+                        },
+                        {
+                            text: 'No',
+                            style: 'cancel'
+                        },
+                    ])
+                }
+                else {
+                    pomNarudzbine[i].status = narudzbine[i].status + 1;
+                    setNarudzbine(pomNarudzbine)
+                    setUpdate(!update)
+                }
                 break;
             }
         }
-        setNarudzbine(pomNarudzbine)
-        setUpdate(!update)
     }
 
     const odbiNarudzbinu = (id) => {
         let pomNarudzbine = narudzbine
         console.log(pomNarudzbine.length)
-        for(let i=0; i<narudzbine.length; i++)
-        {
-            if(narudzbine[i].id == id)
-            {
+        for (let i = 0; i < narudzbine.length; i++) {
+            if (narudzbine[i].id == id) {
                 pomNarudzbine[i].status = 5
                 break;
             }
@@ -56,7 +73,7 @@ export function OrdersScreen(props) {
         setNarudzbine(pomNarudzbine)
         setUpdate(!update)
     }
-    
+
     const checkFlex = (div) => {
         if (div == "Spremne") {
             let num = 0;
@@ -155,17 +172,10 @@ export function OrdersScreen(props) {
                     borderRadius: 10
                 }}>
                 <Text
-<<<<<<< HEAD
                     style={styles.buttonText}
-                >Gotove</Text>
-            </TouchableOpacity>
-            <View style={{ height: checkFlex("Gotove") }}>
-=======
-                style={styles.buttonText}
                 >Spremne</Text>
             </TouchableOpacity>
-            <View style={{height: checkFlex("Spremne")}}>
->>>>>>> e7b3d0fdde74bd94a2108ca08c658e902b6c6d6b
+            <View style={{ height: checkFlex("Spremne") }}>
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 2).map(item =>
                         <OrderComponent delevery={item.delevery}
@@ -233,12 +243,8 @@ export function OrdersScreen(props) {
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 0).map(item =>
                         <OrderComponent
-<<<<<<< HEAD
+                            odbiNarudzbinu={odbiNarudzbinu}
                             promeniStanjeNarudzbine={promeniStanjeNarudzbine}
-=======
-                            odbiNarudzbinu = {odbiNarudzbinu}
-                            promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
->>>>>>> e7b3d0fdde74bd94a2108ca08c658e902b6c6d6b
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             navigation={props.navigation} delevery={item.delevery} price={item.price}
                             companyLogo={item.companyLogo}
@@ -247,7 +253,7 @@ export function OrdersScreen(props) {
                         </OrderComponent>)}
                 </ScrollView>
             </View>
-        </View>
+        </View >
     )
 }
 
