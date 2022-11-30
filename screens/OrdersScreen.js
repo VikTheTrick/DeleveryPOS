@@ -124,7 +124,9 @@ export function OrdersScreen(props) {
                                         key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                                         price={item.price}
                                         companyLogo={item.companyLogo}
-                                        navigation={props.navigation}>
+                                        navigation={props.navigation}
+                                        order={item}
+                        >
 
                         </OrderComponent>)}
                 </ScrollView>
@@ -153,7 +155,9 @@ export function OrdersScreen(props) {
                                         delevery={item.delevery}
                                         price={item.price}
                                         companyLogo={item.companyLogo}
-                                        navigation={props.navigation}>
+                                        navigation={props.navigation}
+                                        order={item}
+                        >
 
                         </OrderComponent>)}
                 </ScrollView>
@@ -180,7 +184,9 @@ export function OrdersScreen(props) {
                         <OrderComponent
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             navigation={props.navigation} delevery={item.delevery} price={item.price}
-                            companyLogo={item.companyLogo}>
+                            companyLogo={item.companyLogo}
+                            order={item}
+                        >
                         </OrderComponent>)}
                 </ScrollView>
             </View>
