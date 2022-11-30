@@ -47,7 +47,12 @@ export function OrdersScreen(props) {
                         },
                         {
                             text: 'No',
-                            style: 'cancel'
+                            style: 'cancel',
+                            onPress: () => {
+                                pomNarudzbine[i].status = narudzbine[i].status + 1;
+                                setNarudzbine(pomNarudzbine)
+                                setUpdate(!update)
+                            }
                         },
                     ])
                 }
@@ -66,7 +71,12 @@ export function OrdersScreen(props) {
         console.log(pomNarudzbine.length)
         for (let i = 0; i < narudzbine.length; i++) {
             if (narudzbine[i].id == id) {
-                pomNarudzbine[i].status = 5
+                if (pomNarudzbine[i].status == 0) {
+                    pomNarudzbine[i].status = 5
+                }
+                else {
+                    pomNarudzbine[i].status = 4
+                }
                 break;
             }
         }
@@ -179,6 +189,7 @@ export function OrdersScreen(props) {
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 2).map(item =>
                         <OrderComponent delevery={item.delevery}
+                            odbiNarudzbinu={odbiNarudzbinu}
                             promeniStanjeNarudzbine={promeniStanjeNarudzbine}
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             price={item.price}
@@ -212,6 +223,7 @@ export function OrdersScreen(props) {
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 1).map(item =>
                         <OrderComponent
+                            odbiNarudzbinu={odbiNarudzbinu}
                             promeniStanjeNarudzbine={promeniStanjeNarudzbine}
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             delevery={item.delevery}
