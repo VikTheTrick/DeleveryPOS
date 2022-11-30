@@ -1,9 +1,11 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, Text, View} from 'react-native';
-import {OrderComponent} from './components/OrderComponent'
-import {OrdersScreen} from './screens/OrdersScreen';
-import {Stek} from './screens/Navigation';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, NativeModules } from 'react-native';
+import { OrderComponent } from './components/OrderComponent'
+import { OrdersScreen } from './screens/OrdersScreen';
+import { useEffect } from 'react';
+import { Stek } from './screens/Navigation';
 // https://www.npmjs.com/package/@expo-google-fonts/raleway
+const { PaymentHandler, PrintService } = NativeModules;
 
 import {
     useFonts,
@@ -14,6 +16,11 @@ import * as SplashScreen from "expo-splash-screen";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+    useEffect(async () => {
+        let result = JSON.parse(await PaymentHandler.sendPaymentRequest(0.01)).response.financial.result.code == "Approved";
+        if (!result) return;
+        console.log("Uspesno placanje");
+    })
     let [fontsLoaded] = useFonts({
         Raleway_400Regular,
     });
@@ -27,7 +34,7 @@ export default function App() {
     SplashScreen.hideAsync();
 
     return (
-        <Stek/>
+        <Stek />
     );
 }
 
