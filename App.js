@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-
+import {OrderComponent} from './Components/OrderComponent'
+import { OrdersScreen } from './screens/OrdersScreen';
+import {Stek} from './screens/Navigation';
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stek/>
   );
 }
 
