@@ -70,9 +70,24 @@ export function OrdersScreen(props) {
                             text: 'No',
                             style: 'cancel',
                             onPress: () => {
-                                pomNarudzbine[i].status = narudzbine[i].status + 1;
-                                setNarudzbine(pomNarudzbine)
-                                setUpdate(!update)
+                                Alert.alert("Payment successful", "Print receipt?", [{
+                                    text: 'Yes',
+                                    onPress: async () => {
+                                        let slip = orderSlip(narudzbine[i]);
+                                        await PrintService.print(slip);
+                                        pomNarudzbine[i].status = narudzbine[i].status + 1;
+                                        setNarudzbine(pomNarudzbine)
+                                        setUpdate(!update)
+                                    }
+                                }, {
+                                    text: 'No',
+                                    style: 'cancel',
+                                    onPress: () => {
+                                        pomNarudzbine[i].status = narudzbine[i].status + 1;
+                                        setNarudzbine(pomNarudzbine)
+                                        setUpdate(!update)
+                                    }
+                                }])
                             }
                         },
                     ])
