@@ -106,7 +106,6 @@ export function OrdersScreen(props) {
                 }}
                 style={{
                     fontFamily: "Raleway_400Regular",
-                    width: '100%',
                     height: '7%',
                     backgroundColor: '#f5f5f5',
                     justifyContent: 'center',
@@ -137,7 +136,6 @@ export function OrdersScreen(props) {
                 }}
                 style={{
                     fontFamily: "Raleway_400Regular",
-                    width: '100%',
                     height: '7%',
                     backgroundColor: '#ffea00',
                     justifyContent: 'center',
@@ -167,7 +165,6 @@ export function OrdersScreen(props) {
                     setNove(!nove)
                 }}
                 style={{
-                    width: '100%',
                     height: '7%',
                     backgroundColor: '#ACD1AF',
                     justifyContent: 'center',
