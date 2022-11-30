@@ -11,7 +11,7 @@ export default function NotLoggedScreen({navigation}) {
     return (
         <Background>
             <Logo/>
-            <Header>MultiFood</Header>
+            <Header>AllFoods</Header>
             <Paragraph>
                 Combining all the delivery POS into one!
             </Paragraph>
