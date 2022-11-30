@@ -25,7 +25,7 @@ const OrderComponent = (props) => {
                 <TouchableOpacity
                     onPress={() => { props.promeniStanjeNarudzbine(props.order.id) }}
                     style={{ backgroundColor: 'white', height: '100%', justifyContent: 'center', borderRadius: 10, width: windowWidth / 5, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ margin: 5, fontFamily: 'Raleway_400Regular' }}>{props.order.status == 0 ? "Prihvati i stampaj" : (props.order.status == 1 ? "Spremi" : "Zavrsi")}</Text>
+                    <Text style={{ margin: 5, fontFamily: 'Raleway_400Regular' }}>{props.order.status == 0 ? "Accept" : (props.order.status == 1 ? "Ready" : "Finish")}</Text>
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>
