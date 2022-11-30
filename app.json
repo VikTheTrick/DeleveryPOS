@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "DeleveryApis",
-    "slug": "DeleveryApis",
+    "name": "AllFoods",
+    "slug": "allfoods",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,6 +29,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a6b166bd-8714-449c-ae49-d661e650c318"
+      }
     }
   }
 }

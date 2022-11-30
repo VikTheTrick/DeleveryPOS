@@ -40,6 +40,7 @@ export function OrdersScreen(props) {
                             text: 'Yes', onPress: async () => {
                                 let result = JSON.parse(await PaymentHandler.sendPaymentRequest(orderPrice(narudzbine[i]))).response.financial.result.code == "Approved";
                                 if (!result) return Alert.alert("Error", "Payment failed");
+                                Alert.alert("Order successful", "Print receipt?")
                                 pomNarudzbine[i].status = narudzbine[i].status + 1;
                                 setNarudzbine(pomNarudzbine)
                                 setUpdate(!update)
@@ -183,7 +184,7 @@ export function OrdersScreen(props) {
                 }}>
                 <Text
                     style={styles.buttonText}
-                >Spremne</Text>
+                >Ready for pickup</Text>
             </TouchableOpacity>
             <View style={{ height: checkFlex("Spremne") }}>
                 <ScrollView>
@@ -217,7 +218,7 @@ export function OrdersScreen(props) {
                 }}>
                 <Text
                     style={styles.buttonText}
-                >Prihvacene</Text>
+                >Accepted</Text>
             </TouchableOpacity>
             <View style={{ height: checkFlex("Prihvacene") }}>
                 <ScrollView>
@@ -249,7 +250,7 @@ export function OrdersScreen(props) {
                     width: '95%',
                     borderRadius: 10
                 }}>
-                <Text style={styles.buttonText}>Nove</Text>
+                <Text style={styles.buttonText}>New orders</Text>
             </TouchableOpacity>
             <View style={{ height: checkFlex("Nove") }}>
                 <ScrollView>

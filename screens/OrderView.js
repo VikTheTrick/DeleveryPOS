@@ -37,7 +37,7 @@ export function OrderView(props) {
                         props.route.params.navigation.navigate("Orders")
                     }}
                 >
-                    <Text style={styles.categoryText}>Prihvati</Text>
+                    <Text style={styles.categoryText}>Accept</Text>
                 </TouchableOpacity> : null}
                 {props.route.params.order.status == 0 ? <TouchableOpacity
                     style={styles.buttonStyle}
@@ -46,7 +46,7 @@ export function OrderView(props) {
                         props.route.params.navigation.navigate("Orders")
                     }}
                 >
-                    <Text style={styles.categoryText}>Odbij</Text>
+                    <Text style={styles.categoryText}>Decline</Text>
                 </TouchableOpacity> : null}
 
                 {(props.route.params.order.status == 1 || props.route.params.order.status == 2) ? <TouchableOpacity
@@ -56,7 +56,7 @@ export function OrderView(props) {
                         props.route.params.navigation.navigate("Orders")
                     }}
                 >
-                    <Text style={styles.categoryText}>Otkazi</Text>
+                    <Text style={styles.categoryText}>Cancel</Text>
                 </TouchableOpacity> : null}
 
                 {props.route.params.order.status == 1 ? <TouchableOpacity
@@ -66,7 +66,7 @@ export function OrderView(props) {
                         props.route.params.navigation.navigate("Orders")
                     }}
                 >
-                    <Text style={styles.categoryText}>Spremi</Text>
+                    <Text style={styles.categoryText}>Ready</Text>
                 </TouchableOpacity> : null}
 
                 {props.route.params.order.status == 2 ? <TouchableOpacity
@@ -76,7 +76,7 @@ export function OrderView(props) {
                         props.route.params.navigation.navigate("Orders")
                     }}
                 >
-                    <Text style={styles.categoryText}>Zavrsi</Text>
+                    <Text style={styles.categoryText}>Finish</Text>
                 </TouchableOpacity> : null}
 
             </View>
