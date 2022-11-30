@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useFonts} from 'expo-font';
 
 import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, SafeAreaView, Dimensions,} from 'react-native'
-import {OrderComponent} from '../components/OrderComponent';
+import OrderComponent from '../components/OrderComponent';
 
 const orders = [
     {
