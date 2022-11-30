@@ -11,9 +11,9 @@ export default function NotLoggedScreen({navigation}) {
     return (
         <Background>
             <Logo/>
-            <Header>Login Template</Header>
+            <Header>MultiFood</Header>
             <Paragraph>
-                The easiest way to start with your amazing application.
+                Combining all the delivery POS into one!
             </Paragraph>
             <Button
                 mode="contained"
