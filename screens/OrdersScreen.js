@@ -1,9 +1,11 @@
 import React from 'react';
-import {useState, useEffect} from "react";
-import {useFonts} from 'expo-font';
+import { useState, useEffect } from "react";
+import { NativeModules } from 'react-native';
+const { PrintService } = NativeModules;
 
-import {View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, SafeAreaView, Dimensions,} from 'react-native'
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, SafeAreaView, Dimensions, } from 'react-native'
 import OrderComponent from '../components/OrderComponent';
+import orderSlip from '../util/Slip';
 
 import orders from "../mock/orders";
 
@@ -19,27 +21,27 @@ export function OrdersScreen(props) {
     const [update, setUpdate] = useState(false)
     useEffect(() => {
         setNarudzbine(orders)
-        });
-    const promeniStanjeNarudzbine = (id) =>{
+    });
+    const promeniStanjeNarudzbine = async (id) => {
         console.log(id)
         let pomNarudzbine = narudzbine
         console.log(pomNarudzbine.length)
-        for(let i=0; i<narudzbine.length; i++)
-        {
-            if(narudzbine[i].id == id)
-            {
-                pomNarudzbine[i].status = narudzbine[i].status + 1;
-                if(narudzbine[i].status == 0)
-                {
-                    //stampaj
+        for (let i = 0; i < narudzbine.length; i++) {
+            if (narudzbine[i].id == id) {
+                if (narudzbine[i].status == 0) {
+                    let slip = orderSlip(narudzbine[i]);
+                    let result = await PrintService.print(slip);
+                    if (!result) return;
+                    console.log("Odstampao");
                 }
+                pomNarudzbine[i].status = narudzbine[i].status + 1;
                 break;
             }
         }
         setNarudzbine(pomNarudzbine)
         setUpdate(!update)
     }
-    
+
     const checkFlex = (div) => {
         if (div == "Gotove") {
             let num = 0;
@@ -130,7 +132,7 @@ export function OrdersScreen(props) {
                 style={{
                     fontFamily: "Raleway_400Regular",
                     height: '7%',
-                    backgroundColor: gotove?'#252525':"gray",
+                    backgroundColor: gotove ? '#252525' : "gray",
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 5,
@@ -138,19 +140,19 @@ export function OrdersScreen(props) {
                     borderRadius: 10
                 }}>
                 <Text
-                style={styles.buttonText}
+                    style={styles.buttonText}
                 >Gotove</Text>
             </TouchableOpacity>
-            <View style={{height: checkFlex("Gotove")}}>
+            <View style={{ height: checkFlex("Gotove") }}>
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 2).map(item =>
                         <OrderComponent delevery={item.delevery}
-                                        promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
-                                        key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
-                                        price={item.price}
-                                        companyLogo={item.companyLogo}
-                                        navigation={props.navigation}
-                                        order={item}
+                            promeniStanjeNarudzbine={promeniStanjeNarudzbine}
+                            key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
+                            price={item.price}
+                            companyLogo={item.companyLogo}
+                            navigation={props.navigation}
+                            order={item}
                         >
 
                         </OrderComponent>)}
@@ -163,7 +165,7 @@ export function OrdersScreen(props) {
                 style={{
                     fontFamily: "Raleway_400Regular",
                     height: '7%',
-                    backgroundColor: prihvacene?'#252525':"gray",
+                    backgroundColor: prihvacene ? '#252525' : "gray",
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 5,
@@ -171,20 +173,20 @@ export function OrdersScreen(props) {
                     borderRadius: 10
                 }}>
                 <Text
-                style={styles.buttonText}
+                    style={styles.buttonText}
                 >Prihvacene</Text>
             </TouchableOpacity>
-            <View style={{height: checkFlex("Prihvacene")}}>
+            <View style={{ height: checkFlex("Prihvacene") }}>
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 1).map(item =>
-                        <OrderComponent 
-                                        promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
-                                        key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
-                                        delevery={item.delevery}
-                                        price={item.price}
-                                        companyLogo={item.companyLogo}
-                                        navigation={props.navigation}
-                                        order={item}
+                        <OrderComponent
+                            promeniStanjeNarudzbine={promeniStanjeNarudzbine}
+                            key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
+                            delevery={item.delevery}
+                            price={item.price}
+                            companyLogo={item.companyLogo}
+                            navigation={props.navigation}
+                            order={item}
                         >
 
                         </OrderComponent>)}
@@ -196,7 +198,7 @@ export function OrdersScreen(props) {
                 }}
                 style={{
                     height: '7%',
-                    backgroundColor: nove?'#252525':"gray",
+                    backgroundColor: nove ? '#252525' : "gray",
                     justifyContent: 'center',
                     alignItems: 'center',
                     marginBottom: 5,
@@ -205,11 +207,11 @@ export function OrdersScreen(props) {
                 }}>
                 <Text style={styles.buttonText}>Nove</Text>
             </TouchableOpacity>
-            <View style={{height: checkFlex("Nove")}}>
+            <View style={{ height: checkFlex("Nove") }}>
                 <ScrollView>
                     {narudzbine.filter((order) => order.status == 0).map(item =>
                         <OrderComponent
-                            promeniStanjeNarudzbine = {promeniStanjeNarudzbine}
+                            promeniStanjeNarudzbine={promeniStanjeNarudzbine}
                             key={Math.floor(Math.random() * 10000000000)/*quick fix*/}
                             navigation={props.navigation} delevery={item.delevery} price={item.price}
                             companyLogo={item.companyLogo}
@@ -235,9 +237,9 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     buttonText: {
-        color:"white",
-        fontFamily:"Raleway_400Regular",
-        fontSize:windowHeight/40
+        color: "white",
+        fontFamily: "Raleway_400Regular",
+        fontSize: windowHeight / 40
     }
 })
 
