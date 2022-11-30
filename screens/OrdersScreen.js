@@ -38,26 +38,32 @@ export function OrdersScreen(props) {
                     Alert.alert("Payment", "Initiate a credit card payment?", [
                         {
                             text: 'Yes', onPress: async () => {
-                                let result = JSON.parse(await PaymentHandler.sendPaymentRequest(orderPrice(narudzbine[i]))).response.financial.result.code == "Approved";
-                                if (!result) return Alert.alert("Error", "Payment failed");
-                                Alert.alert("Order successful", "Print receipt?", [{
-                                    text: 'Yes',
-                                    onPress: async () => {
-                                        let slip = orderSlip(narudzbine[i]);
-                                        await PrintService.print(slip);
-                                        pomNarudzbine[i].status = narudzbine[i].status + 1;
-                                        setNarudzbine(pomNarudzbine)
-                                        setUpdate(!update)
-                                    }
-                                }, {
-                                    text: 'No',
-                                    style: 'cancel',
-                                    onPress: () => {
-                                        pomNarudzbine[i].status = narudzbine[i].status + 1;
-                                        setNarudzbine(pomNarudzbine)
-                                        setUpdate(!update)
-                                    }
-                                }])
+                                try {
+                                    let result = JSON.parse(await PaymentHandler.sendPaymentRequest(orderPrice(narudzbine[i]))).response.financial.result.code == "Approved";
+                                    if (!result) return Alert.alert("Error", "Payment failed");
+                                    Alert.alert("Payment successful", "Print receipt?", [{
+                                        text: 'Yes',
+                                        onPress: async () => {
+                                            let slip = orderSlip(narudzbine[i]);
+                                            await PrintService.print(slip);
+                                            pomNarudzbine[i].status = narudzbine[i].status + 1;
+                                            setNarudzbine(pomNarudzbine)
+                                            setUpdate(!update)
+                                        }
+                                    }, {
+                                        text: 'No',
+                                        style: 'cancel',
+                                        onPress: () => {
+                                            pomNarudzbine[i].status = narudzbine[i].status + 1;
+                                            setNarudzbine(pomNarudzbine)
+                                            setUpdate(!update)
+                                        }
+                                    }])
+                                }
+                                catch (e) {
+                                    console.log(e);
+                                }
+
                             }
                         },
                         {
